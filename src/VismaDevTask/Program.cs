@@ -1,4 +1,5 @@
 ﻿using System;
+using VismaDevTask.Handlers;
 
 namespace VismaDevTask
 {
@@ -8,15 +9,20 @@ namespace VismaDevTask
         {
             Console.WriteLine("Welcome to Visma book library :) How can I help you?");
             Console.WriteLine("To list all the commands, enter 'help'");
-
-            var input = Console.ReadLine();
-
-            if (input.ToLower().Equals("help"))
+            
+            while (true)
             {
-                Console.WriteLine("Not implemented! Closing..");
-                Environment.Exit(0);
+                var input = Console.ReadLine();
+                if (input == "exit")
+                {
+                    Console.WriteLine("Exitting the program. Have a nice day :)");
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    InputHandler.Handle(input);
+                }
             }
-            else Environment.Exit(0);
         }
     }
 }
