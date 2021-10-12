@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VismaDevTask.Tests", "VismaDevTask.Tests\VismaDevTask.Tests.csproj", "{4C58D5C7-1F9A-4E0A-820F-EFA7369508C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VismaDevTask.Tests", "tests\VismaDevTask.Tests\VismaDevTask.Tests.csproj", "{F715BC31-6093-468F-98F3-D4772BB419FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,10 +22,10 @@ Global
 		{BF5068FA-6725-4D9F-BE1B-B71B65515154}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF5068FA-6725-4D9F-BE1B-B71B65515154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF5068FA-6725-4D9F-BE1B-B71B65515154}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4C58D5C7-1F9A-4E0A-820F-EFA7369508C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4C58D5C7-1F9A-4E0A-820F-EFA7369508C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4C58D5C7-1F9A-4E0A-820F-EFA7369508C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4C58D5C7-1F9A-4E0A-820F-EFA7369508C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F715BC31-6093-468F-98F3-D4772BB419FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F715BC31-6093-468F-98F3-D4772BB419FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F715BC31-6093-468F-98F3-D4772BB419FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F715BC31-6093-468F-98F3-D4772BB419FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
