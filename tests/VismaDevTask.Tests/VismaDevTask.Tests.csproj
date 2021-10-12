@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\VismaDevTask\VismaDevTask.csproj" />
+    <ProjectReference Include="..\..\src\VismaDevTask\VismaDevTask.csproj" />
   </ItemGroup>
 
 </Project>

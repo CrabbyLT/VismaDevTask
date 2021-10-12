@@ -4,7 +4,6 @@ using System.IO;
 using System.Text.Json;
 using System.Linq;
 using VismaDevTask.Models;
-using VismaDevTask.Requests;
 
 namespace VismaDevTask.Repositories
 {
