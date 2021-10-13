@@ -36,9 +36,9 @@ namespace VismaDevTask.ApplicationServices
             throw new NotImplementedException();
         }
 
-        public BookModel TakeBookFromLibrary(BookModel book)
+        public bool TakeBookFromLibrary(string isbn, string takenBy)
         {
-            throw new NotImplementedException();
+            return _repository.TakeBookFromLibraryDatabase(isbn, takenBy);
         }
     }
 }
