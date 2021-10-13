@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.Globalization;
 using VismaDevTask.ApplicationServices;
 using VismaDevTask.Interfaces;
@@ -15,7 +17,7 @@ namespace VismaDevTask.Handlers
             switch (input.ToLower())
             {
                 case "help":
-                    ListHelpCommands();
+                    ListCommands();
                     break;
                 case "add":
                     AddBook();
@@ -35,6 +37,25 @@ namespace VismaDevTask.Handlers
                 default:
                     Console.WriteLine("Unknown command. Enter 'help' for a list of available commands");
                     break;
+            }
+        }
+
+        private static void ListCommands()
+        {
+            var helpDictionary = new Dictionary<string, string>()
+            {
+                { "help", "Displays all the commands with their descriptions." },
+                { "add", "Add the book to the library." },
+                { "take", "Take the book from the library." },
+                { "return", "Return the taken book to the library." },
+                { "list", "Lists all the books in the library with all the info you need." },
+                { "delete", "Alias: remove, del. Deletes the book from the library." },
+                { "exit", "Exit the program." }
+            };
+
+            foreach (var (command, description) in helpDictionary)
+            {
+                Console.WriteLine($"{command}   {description}");
             }
         }
 
@@ -58,25 +79,29 @@ namespace VismaDevTask.Handlers
 
             Console.WriteLine($"The book with ISBN of {result} has been added successfully");
         }
-        
+
         private static void TakeBook()
         {
-            throw new NotImplementedException();
-        }
+            Console.WriteLine("I see you want to take a book home, huh?");
+            Console.WriteLine("Please enter your name");
+            var takenBy = Console.ReadLine();
+            Console.WriteLine("Let me scan the ISBN from your book");
+            Console.WriteLine("Please enter the ISBN");
+            var isbn = Console.ReadLine();
 
-        private static void ListHelpCommands() 
-        {
-            throw new NotImplementedException();
+            _libraryServices.TakeBookFromLibrary(isbn, takenBy);
         }
 
         private static void ReturnBook() 
         {
             throw new NotImplementedException();
         }
+
         private static void ListBooks() 
         {
             throw new NotImplementedException();
         }
+
         private static void DeleteBook() 
         {
             throw new NotImplementedException();
