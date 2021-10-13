@@ -20,7 +20,13 @@ namespace VismaDevTask.Repositories
 
         public string AddBookToLibraryDatabase(BookModel book)
         {
-            var readData = GetBooksFromLibraryDatabase();
+            var readData = GetBooksFromLibrary();
+
+            if (readData.Any(x => x.Isbn.Equals(book.Isbn)))
+            {
+                throw new Exception("There is already a book with the same isbn. Check again");
+            }
+
             readData.ToList().Add(book);
             var jsonString = JsonSerializer.Serialize(book);
             File.WriteAllText(_libraryTableDatabase, jsonString);
@@ -30,7 +36,7 @@ namespace VismaDevTask.Repositories
 
         public bool DeleteBookFromLibraryDatabase(string isbn)
         {
-            var readData = GetBooksFromLibraryDatabase();
+            var readData = GetBooksFromLibrary();
             readData.ToList().RemoveAll(x => x.Isbn.Equals(isbn));
             var jsonString = JsonSerializer.Serialize(readData);
             File.WriteAllText(_libraryTableDatabase, jsonString);
@@ -38,7 +44,7 @@ namespace VismaDevTask.Repositories
             return true;
         }
 
-        public IEnumerable<BookModel> GetBooksFromLibraryDatabase()
+        public IEnumerable<BookModel> GetBooksFromLibrary()
         {
             var jsonString = File.ReadAllText(_libraryTableDatabase);
             var result = JsonSerializer.Deserialize<IEnumerable<BookModel>>(jsonString);
@@ -56,28 +62,42 @@ namespace VismaDevTask.Repositories
             return status.DateTaken.Subtract(DateTime.Now).TotalDays <= 3;
         }
 
-        public BookModel TakeBookFromLibraryDatabase(string name, string isbn)
+        public bool TakeBookFromLibraryDatabase(string name, string isbn)
         {
             var readData = GetBookReturnStatus(isbn);
-            var result = GetBooksFromLibraryDatabase().First(model => model.Isbn.Equals(isbn));
+            var result = GetBooksFromLibrary().First(model => model.Isbn.Equals(isbn));
             var status = new BookReturnStatusModel { TakenBy = name, Isbn = isbn, DateTaken = DateTime.Now, Returned = false };
             var jsonString = JsonSerializer.Serialize(status);
 
-            return result;
+            return result is null;
         }
 
-        public BookReturnStatusModel GetBookReturnStatus(string isbn)
+        private BookReturnStatusModel GetBookReturnStatus(string isbn)
         {
-            var jsonString = File.ReadAllText(_bookStatusTableDatabase);
-            var parsedResult = JsonSerializer.Deserialize<IEnumerable<BookReturnStatusModel>>(jsonString).First(x => x.Isbn.Equals(isbn));
+            var bookStatus = GetBookReturnStatuses().First(x => x.Isbn.Equals(isbn));
 
             return new BookReturnStatusModel
             {
-                Isbn = parsedResult.Isbn,
-                TakenBy = parsedResult.TakenBy,
-                DateTaken = parsedResult.DateTaken,
-                Returned = parsedResult.Returned
+                Isbn = bookStatus.Isbn,
+                TakenBy = bookStatus.TakenBy,
+                DateTaken = bookStatus.DateTaken,
+                Returned = bookStatus.Returned
             };
+        }
+
+        private BookModel GetBookFromLibrary(string isbn)
+        {
+            var book = GetBooksFromLibrary().First(book => book.Isbn.Equals(isbn));
+
+            return book;
+        }
+
+        private IEnumerable<BookReturnStatusModel> GetBookReturnStatuses()
+        {
+            var jsonString = File.ReadAllText(_bookStatusTableDatabase);
+            var parsedResult = JsonSerializer.Deserialize<IEnumerable<BookReturnStatusModel>>(jsonString);
+
+            return parsedResult;
         }
     }
 }
