@@ -20,7 +20,7 @@ namespace VismaDevTask
                 }
                 else
                 {
-                    InputHandler.Handle(input);
+                    ErrorHandler.Handle(() => InputHandler.Handle(input));
                 }
             }
         }
