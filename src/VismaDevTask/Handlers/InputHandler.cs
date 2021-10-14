@@ -58,7 +58,7 @@ namespace VismaDevTask.Handlers
 
             foreach (var (command, description) in helpDictionary)
             {
-                Console.WriteLine($"{command}   {description}");
+                Console.WriteLine($"{command}: {description}");
             }
         }
 
@@ -67,14 +67,19 @@ namespace VismaDevTask.Handlers
             Console.WriteLine("Write all the details you want, to add the book");
             Console.WriteLine("Book name: ");
             var name = Console.ReadLine();
+
             Console.WriteLine("Book's author (F. Surname): ");
             var author = Console.ReadLine();
+
             Console.WriteLine("Book's category (only one for now): ");
             var category = Console.ReadLine();
+
             Console.WriteLine("Book's language: ");
             var language = Console.ReadLine();
+
             Console.WriteLine("Book's publication date (yyyy): ");
             var pubDate = DateTime.ParseExact(Console.ReadLine(), "yyyy", CultureInfo.InvariantCulture);
+
             Console.WriteLine("Book's ISBN: ");
             var isbn = Console.ReadLine();
 
@@ -88,11 +93,15 @@ namespace VismaDevTask.Handlers
             Console.WriteLine("I see you want to take a book home, huh?");
             Console.WriteLine("Please enter your name");
             var takenBy = Console.ReadLine();
+
             Console.WriteLine("Let me scan the ISBN from your book");
             Console.WriteLine("Please enter the ISBN");
             var isbn = Console.ReadLine();
 
-            _libraryServices.TakeBookFromLibrary(isbn, takenBy);
+            Console.WriteLine("For how long the book will be taken? (Time duration in days)");
+            var timeTaken = Convert.ToDouble(Console.ReadLine());
+
+            _libraryServices.TakeBookFromLibrary(new TakeBookRequest(takenBy, isbn, TimeSpan.FromDays(timeTaken)));
         }
 
         private static void ReturnBook() 

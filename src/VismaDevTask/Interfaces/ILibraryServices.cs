@@ -7,7 +7,7 @@ namespace VismaDevTask.Interfaces
     public interface ILibraryServices
     {
         string AddBookToLibrary(BookModel book);
-        bool TakeBookFromLibrary(string isbn, string takenBy);
+        bool TakeBookFromLibrary(TakeBookRequest bookRequest);
         bool ReturnBookToLibrary(string isbn);
         public Dictionary<BookModel, bool> ListBooksInLibrary(FilterRequest filter);
         void RemoveBookFromLibrary(string isbn);

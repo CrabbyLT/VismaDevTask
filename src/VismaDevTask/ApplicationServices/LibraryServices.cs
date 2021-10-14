@@ -52,9 +52,9 @@ namespace VismaDevTask.ApplicationServices
             return _repository.ReturnBookToLibraryDatabase(isbn);
         }
 
-        public bool TakeBookFromLibrary(string isbn, string takenBy)
+        public bool TakeBookFromLibrary(TakeBookRequest bookRequest)
         {
-            return _repository.TakeBookFromLibraryDatabase(isbn, takenBy);
+            return _repository.TakeBookFromLibraryDatabase(bookRequest);
         }
     }
 }

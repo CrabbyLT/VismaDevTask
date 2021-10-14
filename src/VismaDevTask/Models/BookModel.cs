@@ -4,11 +4,6 @@ namespace VismaDevTask.Models
 {
     public class BookModel
     {
-        public BookModel()
-        {
-
-        }
-
         public BookModel(string name, string author, string category, string language, DateTime publicationDate, string isbn)
         {
             Name = name;

@@ -10,11 +10,6 @@ namespace VismaDevTask.Models
         public DateTime DateTaken { get; set; }
         public TimeSpan DurationTaken { get; set; }
 
-        public BookReturnStatusModel()
-        {
-
-        }
-
         public BookReturnStatusModel(string isbn, string takenBy, bool returned, DateTime dateTaken, TimeSpan durationTaken)
         {
             Isbn = isbn;

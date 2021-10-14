@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json;
 using System.Linq;
 using VismaDevTask.Models;
+using VismaDevTask.Requests;
 
 namespace VismaDevTask.Repositories
 {
@@ -75,11 +76,11 @@ namespace VismaDevTask.Repositories
             return status.DateTaken.Subtract(DateTime.Now).TotalDays <= 3;
         }
 
-        public bool TakeBookFromLibraryDatabase(string name, string isbn)
+        public bool TakeBookFromLibraryDatabase(TakeBookRequest bookRequest)
         {
-            var readData = GetBookReturnStatus(isbn);
-            var result = GetBooksFromLibrary().First(model => model.Isbn.Equals(isbn));
-            var status = new BookReturnStatusModel { TakenBy = name, Isbn = isbn, DateTaken = DateTime.Now, Returned = false };
+            var readData = GetBookReturnStatus(bookRequest.Isbn);
+            var result = GetBooksFromLibrary().First(model => model.Isbn.Equals(bookRequest.Isbn));
+            var status = new BookReturnStatusModel(bookRequest.Isbn, bookRequest.TakenBy, false, DateTime.Now, bookRequest.TakenDuration);
             AddBookStatus(status);
 
             return result is null;
@@ -102,10 +103,16 @@ namespace VismaDevTask.Repositories
             }
             else
             {
-                bookStatusesFromDatabase
-                    .Where(status => status.Isbn.Equals(model.Isbn))
-                    .ToList()
-                    .ForEach(status => status = model);
+                foreach (var status in bookStatusesFromDatabase)
+                {
+                    if (status.Isbn.Equals(model.Isbn))
+                    {
+                        status.TakenBy = model.TakenBy;
+                        status.Returned = model.Returned;
+                        status.DateTaken = model.DateTaken;
+                        status.DurationTaken = model.DurationTaken;
+                    }
+                }
             }
 
             var jsonString = JsonSerializer.Serialize(bookStatusesFromDatabase);
