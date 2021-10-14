@@ -1,0 +1,42 @@
+[
+  {
+    "Name": "The Secret Place",
+    "Author": "T. French",
+    "Category": "Mystery",
+    "Language": "English",
+    "PublicationDate": "2014-01-01T00:00:00",
+    "Isbn": "978-0-670-02632-6"
+  },
+  {
+    "Name": "Monstress, Volume 1",
+    "Author": "M. Liu",
+    "Category": "Dystopian",
+    "Language": "English",
+    "PublicationDate": "2016-01-01T00:00:00",
+    "Isbn": "978-1632157096"
+  },
+  {
+    "Name": "Why I should get the job at Visma",
+    "Author": "D. Ivanovas",
+    "Category": "Autobiographic",
+    "Language": "Lithuanian",
+    "PublicationDate": "2021-01-01T00:00:00",
+    "Isbn": "123-1456-789-012-3"
+  },
+  {
+    "Name": "name",
+    "Author": "author",
+    "Category": "category",
+    "Language": "language",
+    "PublicationDate": "2000-01-01T00:00:00",
+    "Isbn": "1"
+  },
+  {
+    "Name": "s",
+    "Author": "s",
+    "Category": "s",
+    "Language": "s",
+    "PublicationDate": "2000-01-01T00:00:00",
+    "Isbn": "2000"
+  }
+]

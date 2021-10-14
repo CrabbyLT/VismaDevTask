@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using VismaDevTask.Handlers;
 
 namespace VismaDevTask
@@ -9,7 +10,8 @@ namespace VismaDevTask
         {
             Console.WriteLine("Welcome to Visma book library :) How can I help you?");
             Console.WriteLine("To list all the commands, enter 'help'");
-            
+
+
             while (true)
             {
                 var input = Console.ReadLine();

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
 using VismaDevTask.Interfaces;
 using VismaDevTask.Models;
 using VismaDevTask.Repositories;
 using VismaDevTask.Requests;
+using System.Linq.Dynamic.Core;
 
 namespace VismaDevTask.ApplicationServices
 {
@@ -21,19 +22,34 @@ namespace VismaDevTask.ApplicationServices
             return _repository.AddBookToLibraryDatabase(book);
         }
 
-        public IEnumerable<BookModel> ListBooksInLibrary(FilterRequest filter)
+        public Dictionary<BookModel, bool> ListBooksInLibrary(FilterRequest filter)
         {
-            throw new NotImplementedException();
+            var books = _repository.GetBooksFromLibrary();
+            Dictionary<BookModel, bool> booksWithStatus = new();
+
+            if (filter is not null)
+            {
+                books = books
+                    .AsQueryable()
+                    .Where($"b => b.{filter.Field} == \"{filter.Value}\"");
+            }
+
+            foreach (var book in books)
+            {
+                booksWithStatus.Add(book, _repository.GetBookReturnStatus(book.Isbn).Returned);
+            }
+
+            return booksWithStatus;
         }
 
-        public bool RemoveBookFromLibrary(BookModel book)
+        public void RemoveBookFromLibrary(string isbn)
         {
-            throw new NotImplementedException();
+            _repository.DeleteBookFromLibraryDatabase(isbn);
         }
 
-        public bool ReturnBookToLibrary(BookModel book)
+        public bool ReturnBookToLibrary(string isbn)
         {
-            throw new NotImplementedException();
+            return _repository.ReturnBookToLibraryDatabase(isbn);
         }
 
         public bool TakeBookFromLibrary(string isbn, string takenBy)

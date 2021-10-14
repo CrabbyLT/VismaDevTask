@@ -8,8 +8,8 @@ namespace VismaDevTask.Interfaces
     {
         string AddBookToLibrary(BookModel book);
         bool TakeBookFromLibrary(string isbn, string takenBy);
-        bool ReturnBookToLibrary(BookModel book);
-        IEnumerable<BookModel> ListBooksInLibrary(FilterRequest filter);
-        bool RemoveBookFromLibrary(BookModel book);
+        bool ReturnBookToLibrary(string isbn);
+        public Dictionary<BookModel, bool> ListBooksInLibrary(FilterRequest filter);
+        void RemoveBookFromLibrary(string isbn);
     }
 }

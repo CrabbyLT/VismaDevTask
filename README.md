@@ -30,4 +30,4 @@ Requirements:
     
     - Command to delete a book.
 
-### Time spent: 10  min
+### Time spent: I lost the time :(

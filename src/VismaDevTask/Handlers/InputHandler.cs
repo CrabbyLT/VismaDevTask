@@ -5,6 +5,9 @@ using System.Globalization;
 using VismaDevTask.ApplicationServices;
 using VismaDevTask.Interfaces;
 using VismaDevTask.Models;
+using System.IO;
+using System.Text.Json;
+using VismaDevTask.Requests;
 
 namespace VismaDevTask.Handlers
 {
@@ -70,8 +73,8 @@ namespace VismaDevTask.Handlers
             var category = Console.ReadLine();
             Console.WriteLine("Book's language: ");
             var language = Console.ReadLine();
-            Console.WriteLine("Book's publication date (yyyy-mm-dd): ");
-            var pubDate = DateTime.ParseExact(Console.ReadLine(), "yyyy-MM-dd", CultureInfo.InvariantCulture);
+            Console.WriteLine("Book's publication date (yyyy): ");
+            var pubDate = DateTime.ParseExact(Console.ReadLine(), "yyyy", CultureInfo.InvariantCulture);
             Console.WriteLine("Book's ISBN: ");
             var isbn = Console.ReadLine();
 
@@ -99,12 +102,40 @@ namespace VismaDevTask.Handlers
 
         private static void ListBooks() 
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Would you like to filter any value? Available options:");
+
+            var options = new string[] { "Author", "Category", "Language", "ISBN", "Name", "Taken/Available books", "None" };
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                Console.WriteLine($"{i+1}: {options[i]}");
+            }
+
+            var optionSelected = Convert.ToInt32(Console.ReadLine())-1;
+            FilterRequest filterRequest = null;
+
+            if (options[optionSelected].ToLower() != "none")
+            {
+                Console.WriteLine($"{options[optionSelected]} selected. Please enter value");
+                var value = Console.ReadLine();
+                filterRequest = new FilterRequest(options[optionSelected], value);
+            }
+
+            Console.WriteLine("Listing all the books..");
+            Console.WriteLine("Author       | Name                              | Category       | Language     | Publication Date   | ISBN               | Taken/Available |");
+            foreach (var (book, available) in (_libraryServices.ListBooksInLibrary(filterRequest)))
+            {
+                var takenString = available ? "Available" : "Taken";
+                Console.WriteLine($"{book.Author,-12} | {book.Name,-33} | {book.Category,-14} | {book.Language,-12} | {book.PublicationDate,-18:yyyy} | {book.Isbn,18} | {takenString,-15} |");
+            }
         }
 
         private static void DeleteBook() 
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Book needs to be removed? Go ahead, tell me the ISBN");
+            var isbn = Console.ReadLine();
+
+            _libraryServices.RemoveBookFromLibrary(isbn);
         }
     }
 }

@@ -1,0 +1,32 @@
+[
+  {
+    "Isbn": "978-0-670-02632-6",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00"
+  },
+  {
+    "Isbn": "2000",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00"
+  },
+  {
+    "Isbn": "978-1632157096",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00"
+  },
+  {
+    "Isbn": "123-1456-789-012-3",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00"
+  },
+  {
+    "Isbn": "1",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00"
+  }
+]

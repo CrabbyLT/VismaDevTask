@@ -9,6 +9,7 @@ namespace VismaDevTask.Repositories
         bool TakeBookFromLibraryDatabase(string isbn, string name);
         bool ReturnBookToLibraryDatabase(string isbn);
         IEnumerable<BookModel> GetBooksFromLibrary();
-        bool DeleteBookFromLibraryDatabase(string isbn);
+        void DeleteBookFromLibraryDatabase(string isbn);
+        BookReturnStatusModel GetBookReturnStatus(string isbn);
     }
 }
