@@ -5,8 +5,6 @@ using VismaDevTask.Interfaces;
 using VismaDevTask.ApplicationServices;
 using VismaDevTask.Models;
 using VismaDevTask.Repositories;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace VismaDevTask.Tests
 {

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Globalization;
 using VismaDevTask.ApplicationServices;
 using VismaDevTask.Interfaces;
 using VismaDevTask.Models;
-using System.IO;
-using System.Text.Json;
 using VismaDevTask.Requests;
 
 namespace VismaDevTask.Handlers
@@ -17,7 +14,7 @@ namespace VismaDevTask.Handlers
 
         public static void Handle(string input)
         {
-            switch (input.ToLower())
+            switch (input.ToLower().TrimEnd())
             {
                 case "help":
                     ListCommands();
@@ -41,6 +38,8 @@ namespace VismaDevTask.Handlers
                     Console.WriteLine("Unknown command. Enter 'help' for a list of available commands");
                     break;
             }
+
+            Console.WriteLine("\r\nAwaiting command...");
         }
 
         private static void ListCommands()
@@ -102,11 +101,20 @@ namespace VismaDevTask.Handlers
             var timeTaken = Convert.ToDouble(Console.ReadLine());
 
             _libraryServices.TakeBookFromLibrary(new TakeBookRequest(takenBy, isbn, TimeSpan.FromDays(timeTaken)));
+
+            Console.WriteLine("Successfully taken the book");
         }
 
         private static void ReturnBook() 
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Returning the book? Let's see");
+            Console.WriteLine("Enter the ISBN");
+            var isbn = Console.ReadLine();
+
+            var late = _libraryServices.ReturnBookToLibrary(isbn);
+
+            if (late) Console.WriteLine("You are late Sugar Tits! \r\n https://www.youtube.com/watch?v=ZYJBpIC7ndA");
+            else Console.WriteLine("Right one time! Hope you had a great read :)");
         }
 
         private static void ListBooks() 
@@ -127,6 +135,7 @@ namespace VismaDevTask.Handlers
             {
                 Console.WriteLine($"{options[optionSelected]} selected. Please enter value");
                 var value = Console.ReadLine();
+
                 filterRequest = new FilterRequest(options[optionSelected], value);
             }
 
@@ -145,6 +154,8 @@ namespace VismaDevTask.Handlers
             var isbn = Console.ReadLine();
 
             _libraryServices.RemoveBookFromLibrary(isbn);
+
+            Console.WriteLine($"The book of ISBN: {isbn} has been successfully removed!");
         }
     }
 }

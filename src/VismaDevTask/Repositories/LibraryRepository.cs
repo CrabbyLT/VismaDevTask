@@ -48,7 +48,7 @@ namespace VismaDevTask.Repositories
                 throw new Exception("There are no books in the library :(");
             }
 
-            booksInLibrary.ToList().RemoveAll(x => x.Isbn.Equals(isbn));
+            booksInLibrary = booksInLibrary.Where(x => x.Isbn != isbn);
             var jsonString = JsonSerializer.Serialize(booksInLibrary);
             File.WriteAllText(_libraryTableDatabase, jsonString);
         }
@@ -66,14 +66,9 @@ namespace VismaDevTask.Repositories
             return null;
         }
 
-        public bool ReturnBookToLibraryDatabase(string isbn)
+        public void ReturnBookToLibraryDatabase(string isbn)
         {
-            var status = GetBookReturnStatus(isbn);
-            status.Returned = true;
-            var jsonString = JsonSerializer.Serialize(status);
-            File.WriteAllText(_bookStatusTableDatabase, jsonString);
-
-            return status.DateTaken.Subtract(DateTime.Now).TotalDays <= 3;
+            AddBookStatus(new BookReturnStatusModel(isbn, "", true, default, default));
         }
 
         public bool TakeBookFromLibraryDatabase(TakeBookRequest bookRequest)
