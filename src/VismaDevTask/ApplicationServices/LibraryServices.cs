@@ -67,6 +67,13 @@ namespace VismaDevTask.ApplicationServices
 
         public bool ReturnBookToLibrary(string isbn)
         {
+            var book = _repository.GetBooksFromLibrary().FirstOrDefault(model => model.Isbn.Equals(isbn));
+
+            if (book is null)
+            {
+                throw new Exception($"There is no book found with ISBN of {isbn}");
+            }
+
             var currentStatus = _repository.GetBookReturnStatus(isbn);
 
             if (currentStatus.Returned)
@@ -76,6 +83,8 @@ namespace VismaDevTask.ApplicationServices
 
             if ((currentStatus.DateTaken + currentStatus.DurationTaken).AddDays(3) > DateTime.Now)
             {
+                _repository.ReturnBookToLibraryDatabase(isbn);
+
                 return false;
             }
 
@@ -90,10 +99,10 @@ namespace VismaDevTask.ApplicationServices
 
             if (book is null)
             {
-                throw new Exception($"There is no book found with ISBN of {book.Isbn}");
+                throw new Exception($"There is no book found with ISBN of {bookRequest.Isbn}");
             }
 
-            if (_repository.GetBookReturnStatuses().Count(status => status.TakenBy.Equals(bookRequest.TakenBy)) > 3)
+            if (_repository.GetBookReturnStatuses().Count(status => status.TakenBy.Equals(bookRequest.TakenBy)) == 3)
             {
                 throw new Exception("Can't take more than three books");
             }
