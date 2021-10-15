@@ -25,12 +25,6 @@ namespace VismaDevTask.Repositories
         public string AddBookToLibraryDatabase(BookModel book)
         {
             var booksInLibrary = (List<BookModel>)(GetBooksFromLibrary() ?? new List<BookModel>());
-
-            if (booksInLibrary.Any(x => x.Isbn.Equals(book.Isbn)))
-            {
-                throw new Exception("There is already a book with the same isbn. Check again");
-            }
-
             booksInLibrary.Add(book);
             var jsonString = JsonSerializer.Serialize(booksInLibrary);
             File.WriteAllText(_libraryTableDatabase, jsonString);
@@ -63,7 +57,7 @@ namespace VismaDevTask.Repositories
                 return result;
             }
 
-            return null;
+            return new List<BookModel>();
         }
 
         public void ReturnBookToLibraryDatabase(string isbn)
@@ -73,8 +67,8 @@ namespace VismaDevTask.Repositories
 
         public void TakeBookFromLibraryDatabase(TakeBookRequest bookRequest)
         {
-            var status = new BookReturnStatusModel(bookRequest.Isbn, bookRequest.TakenBy, false, DateTime.Now, bookRequest.TakenDuration);
-            AddBookStatus(status);
+            AddBookStatus(new BookReturnStatusModel(
+                bookRequest.Isbn, bookRequest.TakenBy, false, DateTime.Now, bookRequest.TakenDuration));
         }
 
         public BookReturnStatusModel GetBookReturnStatus(string isbn)

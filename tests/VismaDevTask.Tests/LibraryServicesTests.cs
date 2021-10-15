@@ -1,10 +1,13 @@
 using Moq;
 using NUnit.Framework;
 using System;
-using VismaDevTask.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 using VismaDevTask.ApplicationServices;
+using VismaDevTask.Interfaces;
 using VismaDevTask.Models;
 using VismaDevTask.Repositories;
+using VismaDevTask.Requests;
 
 namespace VismaDevTask.Tests
 {
@@ -17,30 +20,113 @@ namespace VismaDevTask.Tests
         [SetUp]
         public void Setup()
         {
-            _libraryServices = new LibraryServices();
             _libraryRepositoryMock = new Mock<ILibraryRepository>();
-            _book = new BookModel("A story about a killer flower", "A. Johson", "Murder", "English", new DateTime(2020, 08, 21), "46546-5464-2321-45423");
+            _libraryServices = new LibraryServices(_libraryRepositoryMock.Object);
+
+            _book = new BookModel(
+                "A story about a killer flower", 
+                "A. Johson", 
+                "Detective", 
+                "English", 
+                new DateTime(2020, 08, 21),
+                "123-456-6531-1");
         }
 
         [Test]
-        public void Given__bookInfo_When_AddBookToLibrary_Then_Returns_booksIsbn()
+        public void Given_NewBookISBN_When_AddBookToLibrary_Then_ReturnsBooksIsbn()
         {
-            // TODO: Later
-            Assert.That(false);
+            _libraryRepositoryMock.Setup(repository => repository.AddBookToLibraryDatabase(_book)).Returns(_book.Isbn);
+
+            var result = _libraryServices.AddBookToLibrary(_book);
+
+            _libraryRepositoryMock.Verify(mock => mock.AddBookToLibraryDatabase(It.IsAny<BookModel>()), Times.Once());
+            Assert.That(result.Equals(_book.Isbn));
         }
 
         [Test]
-        public void Given_BookInfo_When_RemoveBookFromLibrary_Then_ReturnsTrue()
+        public void Given_ExistingBookISBN_When_AddBookToLibrary_Then_Throws()
         {
-            // TODO: Later
-            Assert.That(false);
+            _libraryRepositoryMock.Setup(repository => repository.GetBooksFromLibrary()).Returns(new List<BookModel>() { _book });
+
+            _libraryRepositoryMock.Verify(mock => mock.AddBookToLibraryDatabase(It.IsAny<BookModel>()), Times.Never());
+            Assert.That(
+                () => _libraryServices.AddBookToLibrary(_book), 
+                Throws.TypeOf<Exception>().With.Message.EqualTo("Book with the same ISBN already exists in the book."));
         }
 
         [Test]
-        public void Given_FilterRequest_When_GetBooksFromLibraryDatabase_Then_Returns_FilteredList()
+        public void Given_BookISBN_When_RemoveBookFromLibrary_Then_ThrowsNothing()
         {
-            // TODO: Later
-            Assert.That(false);
+            _libraryRepositoryMock.Setup(repository => repository.GetBooksFromLibrary()).Returns(new List<BookModel>() { _book });
+
+            Assert.That(() => _libraryServices.RemoveBookFromLibrary(_book.Isbn), !Throws.TypeOf<Exception>());
+        }
+
+        [Test]
+        public void Given_NonExistingBookISBN_When_RemoveBookFromLibrary_Then_Throws()
+        {
+            _libraryRepositoryMock.Setup(repository => repository.GetBooksFromLibrary());
+
+            Assert.That(
+                () => _libraryServices.RemoveBookFromLibrary(_book.Isbn),
+                Throws.TypeOf<Exception>().With.Message.EqualTo($"There is no book found with ISBN of {_book.Isbn}"));
+        }
+
+        [Test]
+        public void Given_FilterRequestForDetectiveCategory_When_GetBooksFromLibraryDatabase_Then_Returns_FilteredList()
+        {
+            _libraryRepositoryMock.Setup(repository => repository.GetBooksFromLibrary())
+                .Returns(new List<BookModel> 
+                { 
+                    _book, 
+                    new BookModel("A book", "A. Autor", "Mystery", "English", new DateTime(2021, 07, 06), "123-566-578-8"),
+                    new BookModel("Another book about murder", "S. Ander", "Detective", "English", new DateTime(2000,01,06), "321-664-987-3-33")
+                });
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus(_book.Isbn)).Returns(new BookReturnStatusModel(_book.Isbn, "Unit tester", false, DateTime.Now, TimeSpan.FromDays(3)));
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus("123-566-578-8")).Returns(new BookReturnStatusModel("123-566-578-8", "", true, default, default));
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus("321-664-987-3-33")).Returns(new BookReturnStatusModel("321-664-987-3-33", "", true, default, default));
+
+            var actual = _libraryServices.ListBooksInLibrary(new FilterRequest("Category", "Detective"));
+
+            Assert.That(actual.Count() == _libraryRepositoryMock.Object.GetBooksFromLibrary().Where(x => x.Category.Equals("Detective")).Count());
+        }
+
+        [Test]
+        public void Given_FilterRequestForAvailableBooks_When_GetBooksFromLibraryDatabase_Then_Returns_FilteredList()
+        {
+            _libraryRepositoryMock.Setup(repository => repository.GetBooksFromLibrary())
+                .Returns(new List<BookModel>
+                {
+                    _book,
+                    new BookModel("A book", "A. Autor", "Mystery", "English", new DateTime(2021, 07, 06), "123-566-578-8"),
+                    new BookModel("Another book about murder", "S. Ander", "Detective", "English", new DateTime(2000,01,06), "321-664-987-3-33")
+                });
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus(_book.Isbn)).Returns(new BookReturnStatusModel(_book.Isbn, "Unit tester", false, DateTime.Now, TimeSpan.FromDays(3)));
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus("123-566-578-8")).Returns(new BookReturnStatusModel("123-566-578-8", "", true, default, default));
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus("321-664-987-3-33")).Returns(new BookReturnStatusModel("321-664-987-3-33", "", true, default, default));
+
+            var actual = _libraryServices.ListBooksInLibrary(new FilterRequest("Taken/Available books", "Available"));
+
+            Assert.That(actual.Count() == _libraryRepositoryMock.Object.GetBooksFromLibrary().Where(x => x.Category.Equals("Detective")).Count());
+        }
+
+        [Test]
+        public void Given_NoFilterRequest_When_GetBooksFromLibraryDatabase_Then_Returns_UnfilteredList()
+        {
+            _libraryRepositoryMock.Setup(repository => repository.GetBooksFromLibrary())
+                .Returns(new List<BookModel>
+                {
+                    _book,
+                    new BookModel("A book", "A. Autor", "Mystery", "English", new DateTime(2021, 07, 06), "123-566-578-8"),
+                    new BookModel("Another book about murder", "S. Ander", "Detective", "English", new DateTime(2000,01,06), "321-664-987-3-33")
+                });
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus(_book.Isbn)).Returns(new BookReturnStatusModel(_book.Isbn, "Unit tester", false, DateTime.Now, TimeSpan.FromDays(3)));
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus("123-566-578-8")).Returns(new BookReturnStatusModel("123-566-578-8", "", true, default, default));
+            _libraryRepositoryMock.Setup(x => x.GetBookReturnStatus("321-664-987-3-33")).Returns(new BookReturnStatusModel("321-664-987-3-33", "", true, default, default));
+
+            var actual = _libraryServices.ListBooksInLibrary(null);
+
+            Assert.That(actual.Count() == _libraryRepositoryMock.Object.GetBooksFromLibrary().Count());
         }
 
         [Test]

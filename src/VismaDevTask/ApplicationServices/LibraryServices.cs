@@ -13,13 +13,18 @@ namespace VismaDevTask.ApplicationServices
     {
         private ILibraryRepository _repository;
 
-        public LibraryServices()
+        public LibraryServices(ILibraryRepository repository = null)
         {
-            _repository = new LibraryRepository();
+            _repository = repository ??= new LibraryRepository();
         }
 
         public string AddBookToLibrary(BookModel book)
         {
+            if (_repository.GetBooksFromLibrary().Any(book => book.Isbn.Equals(book.Isbn)))
+            {
+                throw new Exception("Book with the same ISBN already exists in the book.");
+            }
+
             return _repository.AddBookToLibraryDatabase(book);
         }
 
@@ -54,7 +59,7 @@ namespace VismaDevTask.ApplicationServices
 
             if (book is null)
             {
-                throw new Exception($"There is no book found with ISBN of {book.Isbn}");
+                throw new Exception($"There is no book found with ISBN of {isbn}");
             }
 
             _repository.DeleteBookFromLibraryDatabase(isbn);

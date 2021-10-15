@@ -1,1 +1,135 @@
-[{"Isbn":"978-0-670-02632-6","TakenBy":"","Returned":true,"DateTaken":"0001-01-01T00:00:00","DurationTaken":{"Ticks":0,"Days":0,"Hours":0,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":0,"TotalHours":0,"TotalMilliseconds":0,"TotalMinutes":0,"TotalSeconds":0}},{"Isbn":"2000","TakenBy":"","Returned":true,"DateTaken":"0001-01-01T00:00:00","DurationTaken":{"Ticks":0,"Days":0,"Hours":0,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":0,"TotalHours":0,"TotalMilliseconds":0,"TotalMinutes":0,"TotalSeconds":0}},{"Isbn":"978-1632157096","TakenBy":"","Returned":true,"DateTaken":"0001-01-01T00:00:00","DurationTaken":{"Ticks":0,"Days":0,"Hours":0,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":0,"TotalHours":0,"TotalMilliseconds":0,"TotalMinutes":0,"TotalSeconds":0}},{"Isbn":"123-1456-789-012-3","TakenBy":"","Returned":true,"DateTaken":"0001-01-01T00:00:00","DurationTaken":{"Ticks":0,"Days":0,"Hours":0,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":0,"TotalHours":0,"TotalMilliseconds":0,"TotalMinutes":0,"TotalSeconds":0}},{"Isbn":"1","TakenBy":"","Returned":true,"DateTaken":"0001-01-01T00:00:00","DurationTaken":{"Ticks":0,"Days":0,"Hours":0,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":0,"TotalHours":0,"TotalMilliseconds":0,"TotalMinutes":0,"TotalSeconds":0}},{"Isbn":"tavomama69","TakenBy":"","Returned":true,"DateTaken":"0001-01-01T00:00:00","DurationTaken":{"Ticks":0,"Days":0,"Hours":0,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":0,"TotalHours":0,"TotalMilliseconds":0,"TotalMinutes":0,"TotalSeconds":0}},{"Isbn":"","TakenBy":"viliaus riesutai","Returned":false,"DateTaken":"2021-10-15T00:42:08.9133255+03:00","DurationTaken":{"Ticks":17280000000000,"Days":20,"Hours":0,"Milliseconds":0,"Minutes":0,"Seconds":0,"TotalDays":20,"TotalHours":480,"TotalMilliseconds":1728000000,"TotalMinutes":28800,"TotalSeconds":1728000}}]
+[
+  {
+    "Isbn": "978-0-670-02632-6",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00",
+    "DurationTaken": {
+      "Ticks": 0,
+      "Days": 0,
+      "Hours": 0,
+      "Milliseconds": 0,
+      "Minutes": 0,
+      "Seconds": 0,
+      "TotalDays": 0,
+      "TotalHours": 0,
+      "TotalMilliseconds": 0,
+      "TotalMinutes": 0,
+      "TotalSeconds": 0
+    }
+  },
+  {
+    "Isbn": "2000",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00",
+    "DurationTaken": {
+      "Ticks": 0,
+      "Days": 0,
+      "Hours": 0,
+      "Milliseconds": 0,
+      "Minutes": 0,
+      "Seconds": 0,
+      "TotalDays": 0,
+      "TotalHours": 0,
+      "TotalMilliseconds": 0,
+      "TotalMinutes": 0,
+      "TotalSeconds": 0
+    }
+  },
+  {
+    "Isbn": "978-1632157096",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00",
+    "DurationTaken": {
+      "Ticks": 0,
+      "Days": 0,
+      "Hours": 0,
+      "Milliseconds": 0,
+      "Minutes": 0,
+      "Seconds": 0,
+      "TotalDays": 0,
+      "TotalHours": 0,
+      "TotalMilliseconds": 0,
+      "TotalMinutes": 0,
+      "TotalSeconds": 0
+    }
+  },
+  {
+    "Isbn": "123-1456-789-012-3",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00",
+    "DurationTaken": {
+      "Ticks": 0,
+      "Days": 0,
+      "Hours": 0,
+      "Milliseconds": 0,
+      "Minutes": 0,
+      "Seconds": 0,
+      "TotalDays": 0,
+      "TotalHours": 0,
+      "TotalMilliseconds": 0,
+      "TotalMinutes": 0,
+      "TotalSeconds": 0
+    }
+  },
+  {
+    "Isbn": "1",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00",
+    "DurationTaken": {
+      "Ticks": 0,
+      "Days": 0,
+      "Hours": 0,
+      "Milliseconds": 0,
+      "Minutes": 0,
+      "Seconds": 0,
+      "TotalDays": 0,
+      "TotalHours": 0,
+      "TotalMilliseconds": 0,
+      "TotalMinutes": 0,
+      "TotalSeconds": 0
+    }
+  },
+  {
+    "Isbn": "tavomama69",
+    "TakenBy": "",
+    "Returned": true,
+    "DateTaken": "0001-01-01T00:00:00",
+    "DurationTaken": {
+      "Ticks": 0,
+      "Days": 0,
+      "Hours": 0,
+      "Milliseconds": 0,
+      "Minutes": 0,
+      "Seconds": 0,
+      "TotalDays": 0,
+      "TotalHours": 0,
+      "TotalMilliseconds": 0,
+      "TotalMinutes": 0,
+      "TotalSeconds": 0
+    }
+  },
+  {
+    "Isbn": "",
+    "TakenBy": "viliaus riesutai",
+    "Returned": false,
+    "DateTaken": "2021-10-15T00:42:08.9133255+03:00",
+    "DurationTaken": {
+      "Ticks": 17280000000000,
+      "Days": 20,
+      "Hours": 0,
+      "Milliseconds": 0,
+      "Minutes": 0,
+      "Seconds": 0,
+      "TotalDays": 20,
+      "TotalHours": 480,
+      "TotalMilliseconds": 1728000000,
+      "TotalMinutes": 28800,
+      "TotalSeconds": 1728000
+    }
+  }
+]
