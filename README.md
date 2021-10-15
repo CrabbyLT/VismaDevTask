@@ -6,6 +6,9 @@
 
 Currently the only available thing to try out the program would be through Visual Studio, or by going to /src/VismaDevTask and running `dotnet run` through CLI of your choice.
 
+There is a bug with the program where it stores files, if ran through `dotnet run` it will store the files in `src\VismaDevTask\bin\Debug\net5.0`
+and if you ran it through Visual Studio it will store it in `src\VismaDevTask`
+
 ### The Task
 
 Create a console application to manage Visma’s book library using .NET5.
