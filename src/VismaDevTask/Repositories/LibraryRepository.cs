@@ -71,14 +71,10 @@ namespace VismaDevTask.Repositories
             AddBookStatus(new BookReturnStatusModel(isbn, "", true, default, default));
         }
 
-        public bool TakeBookFromLibraryDatabase(TakeBookRequest bookRequest)
+        public void TakeBookFromLibraryDatabase(TakeBookRequest bookRequest)
         {
-            var readData = GetBookReturnStatus(bookRequest.Isbn);
-            var result = GetBooksFromLibrary().First(model => model.Isbn.Equals(bookRequest.Isbn));
             var status = new BookReturnStatusModel(bookRequest.Isbn, bookRequest.TakenBy, false, DateTime.Now, bookRequest.TakenDuration);
             AddBookStatus(status);
-
-            return result is null;
         }
 
         public BookReturnStatusModel GetBookReturnStatus(string isbn)
@@ -114,7 +110,7 @@ namespace VismaDevTask.Repositories
             File.WriteAllText(_bookStatusTableDatabase, jsonString);
         }
 
-        private IEnumerable<BookReturnStatusModel> GetBookReturnStatuses()
+        public IEnumerable<BookReturnStatusModel> GetBookReturnStatuses()
         {
             if (File.Exists(_bookStatusTableDatabase))
             {

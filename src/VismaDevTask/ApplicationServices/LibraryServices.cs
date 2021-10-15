@@ -48,19 +48,15 @@ namespace VismaDevTask.ApplicationServices
             return ToDictionary(books);
         }
 
-        private Dictionary<BookModel, bool> ToDictionary(IEnumerable<BookModel> books)
-        {
-            Dictionary<BookModel, bool> booksWithStatus = new();
-            foreach (var book in books)
-            {
-                booksWithStatus.Add(book, _repository.GetBookReturnStatus(book.Isbn).Returned);
-            }
-
-            return booksWithStatus;
-        }
-
         public void RemoveBookFromLibrary(string isbn)
         {
+            var book = _repository.GetBooksFromLibrary().FirstOrDefault(model => model.Isbn.Equals(isbn));
+
+            if (book is null)
+            {
+                throw new Exception($"There is no book found with ISBN of {book.Isbn}");
+            }
+
             _repository.DeleteBookFromLibraryDatabase(isbn);
         }
 
@@ -85,10 +81,35 @@ namespace VismaDevTask.ApplicationServices
 
         public void TakeBookFromLibrary(TakeBookRequest bookRequest)
         {
-            if (!_repository.TakeBookFromLibraryDatabase(bookRequest))
+            var book = _repository.GetBooksFromLibrary().FirstOrDefault(model => model.Isbn.Equals(bookRequest.Isbn));
+
+            if (book is null)
             {
-                throw new Exception("Could not take the book");
+                throw new Exception($"There is no book found with ISBN of {book.Isbn}");
             }
+
+            if (_repository.GetBookReturnStatuses().Count(status => status.TakenBy.Equals(bookRequest.TakenBy)) > 3)
+            {
+                throw new Exception("Can't take more than three books");
+            }
+
+            if (bookRequest.TakenDuration.TotalDays > 61)
+            {
+                throw new Exception("Can't take the book for more than two months");
+            }
+
+            _repository.TakeBookFromLibraryDatabase(bookRequest);
+        }
+
+        private Dictionary<BookModel, bool> ToDictionary(IEnumerable<BookModel> books)
+        {
+            Dictionary<BookModel, bool> booksWithStatus = new();
+            foreach (var book in books)
+            {
+                booksWithStatus.Add(book, _repository.GetBookReturnStatus(book.Isbn).Returned);
+            }
+
+            return booksWithStatus;
         }
     }
 }

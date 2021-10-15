@@ -7,10 +7,11 @@ namespace VismaDevTask.Repositories
     public interface ILibraryRepository
     {
         string AddBookToLibraryDatabase(BookModel book);
-        bool TakeBookFromLibraryDatabase(TakeBookRequest bookRequest);
+        void TakeBookFromLibraryDatabase(TakeBookRequest bookRequest);
         void ReturnBookToLibraryDatabase(string isbn);
         IEnumerable<BookModel> GetBooksFromLibrary();
         void DeleteBookFromLibraryDatabase(string isbn);
         BookReturnStatusModel GetBookReturnStatus(string isbn);
+        IEnumerable<BookReturnStatusModel> GetBookReturnStatuses();
     }
 }
