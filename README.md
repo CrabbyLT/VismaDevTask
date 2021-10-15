@@ -2,7 +2,11 @@
 
  A .NET developer task given by Visma for internship 2021
 
-## The Task
+## Try out the program
+
+Currently the only available thing to try out the program would be through Visual Studio, or by going to /src/VismaDevTask and running `dotnet run` through CLI of your choice.
+
+### The Task
 
 Create a console application to manage Visma’s book library using .NET5.
 Requirements:
