@@ -20,7 +20,7 @@ namespace VismaDevTask.ApplicationServices
 
         public string AddBookToLibrary(BookModel book)
         {
-            if (_repository.GetBooksFromLibrary().Any(book => book.Isbn.Equals(book.Isbn)))
+            if (_repository.GetBooksFromLibrary().Any(b => b.Isbn.Equals(book.Isbn)))
             {
                 throw new Exception("Book with the same ISBN already exists in the book.");
             }
